@@ -30,8 +30,9 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
+predict = sigmoid(X*all_theta');
+[prob, ind] = max(predict');
+p = ind';
 
 
 
