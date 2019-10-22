@@ -15,9 +15,18 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
+% Number of training examples
+m = size(X, 1);
 
-
-
+for i = 1:m
+  poly_features = zeros(p,1);
+  
+  for j = 1:p
+    poly_features(j) = X(i).^j;
+  end
+  
+  X_poly(i, :) = poly_features;
+end
 
 
 % =========================================================================
