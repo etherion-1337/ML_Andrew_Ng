@@ -23,8 +23,25 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+summary_array = zeros(64,3);
+row_pointer = 0;
 
+for C_GridSearch = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30]
+  for sigma_GridSearch = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30]
+    ++row_pointer
+    model = svmTrain(X,y,C_GridSearch, @(x1,x2) gaussianKernel(x1,x2,sigma_GridSearch));
+    predictions = svmPredict(model, Xval);
+    predictions_error = mean(double(predictions ~= yval));
+    
+    summary_array(row_pointer,:) = [C_GridSearch, sigma_GridSearch, predictions_error];
+  end
+end
 
+% find min in col 3
+[min_error, min_index] = min(summary_array(:,3));
+
+C = summary_array(min_index,1);
+sigma = summary_array(min_index,2);
 
 
 
